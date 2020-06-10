@@ -3,14 +3,12 @@ import argparse
 import glob
 import multiprocessing as mp
 import os
-import time
 import cv2
 import tqdm
 import numpy as np
 
 from detectron2.config import get_cfg
 from detectron2.data.detection_utils import read_image
-from detectron2.utils.logger import setup_logger
 
 from predictor import VisualizationDemo
 
@@ -67,11 +65,7 @@ def get_parser():
 
 if __name__ == "__main__":
     mp.set_start_method("spawn", force=True)
-    args = get_parser().parse_args()
-    setup_logger(name="fvcore")
-    logger = setup_logger()
-    logger.info("Arguments: " + str(args))
-
+    args = get_parser().parse_args()    
     cfg = setup_cfg(args)
 
     demo = VisualizationDemo(cfg)
@@ -85,17 +79,7 @@ if __name__ == "__main__":
             # use PIL, to be consistent with evaluation
             img = read_image(path, format="BGR")
 
-            start_time = time.time()
             predictions, visualized_output = demo.run_on_image(img)
-            logger.info(
-                "{}: {} in {:.2f}s".format(
-                    path,
-                    "detected {} instances".format(len(predictions["instances"]))
-                    if "instances" in predictions
-                    else "finished",
-                    time.time() - start_time,
-                )
-            )
 
             if args.output:
                 if os.path.isdir(args.output):
@@ -129,7 +113,6 @@ if __name__ == "__main__":
                     print(bbox, conf)
                 
                 cv2.imshow(WINDOW_NAME, img)
-                # cv2.imshow(WINDOW_NAME, visualized_output.get_image()[:, :, ::-1])
 
                 if cv2.waitKey(0) == 27:
                     break  # esc to quit
