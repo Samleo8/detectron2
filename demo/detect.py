@@ -96,8 +96,6 @@ if __name__ == "__main__":
                 pred_classes = predictions["instances"].pred_classes.cpu().detach().numpy()
                 confidences = predictions["instances"].scores.cpu().detach().numpy()
 
-                print(img.shape)
-
                 for i, bbox in enumerate(pred_boxes):
                     cls = pred_classes[i]
                     conf = confidences[i]
