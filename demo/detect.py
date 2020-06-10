@@ -108,10 +108,11 @@ if __name__ == "__main__":
             else:
                 cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)
                 
-
                 pred_boxes = predictions["instances"].pred_boxes.tensor.cpu().detach().numpy()
                 pred_classes = predictions["instances"].pred_classes.cpu().detach().numpy()
                 confidences = predictions["instances"].scores.cpu().detach().numpy()
+
+                print(img.shape)
 
                 for i, bbox in enumerate(pred_boxes):
                     cls = pred_classes[i]
@@ -121,10 +122,14 @@ if __name__ == "__main__":
                     if cls != 0:
                         continue
 
+                    left, top, right, bottom = tuple(bbox)
+                    print(left, top, right, bottom)
+                    img = cv2.rectangle(img, (left, top), (right, bottom), (255, 0, 0), 2)
+
                     print(bbox, conf)
                 
-                break
-                cv2.imshow(WINDOW_NAME, visualized_output.get_image()[:, :, ::-1])
+                cv2.imshow(WINDOW_NAME, img)
+                # cv2.imshow(WINDOW_NAME, visualized_output.get_image()[:, :, ::-1])
 
                 if cv2.waitKey(0) == 27:
                     break  # esc to quit
