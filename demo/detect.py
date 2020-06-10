@@ -108,12 +108,20 @@ if __name__ == "__main__":
             else:
                 cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)
                 
-                pred_boxes = np.array(predictions["instances"].pred_boxes.tensor.cpu())
-                pred_classes = list(predictions["instances"].pred_classes.cpu())
+
+                pred_boxes = predictions["instances"].pred_boxes.tensor.cpu().detach().numpy()
+                pred_classes = predictions["instances"].pred_classes.cpu().detach().numpy()
+                confidences = predictions["instances"].scores.cpu().detach().numpy()
 
                 for i, bbox in enumerate(pred_boxes):
                     cls = pred_classes[i]
-                    print(i, cls)
+                    conf = confidences[i]
+
+                    # Not human/persons
+                    if cls != 0:
+                        continue
+
+                    print(bbox, conf)
                 
                 break
                 cv2.imshow(WINDOW_NAME, visualized_output.get_image()[:, :, ::-1])
