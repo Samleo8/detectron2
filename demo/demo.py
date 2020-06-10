@@ -110,8 +110,8 @@ if __name__ == "__main__":
                 print(predictions)
 
                 cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)
-                cv2.imshow(WINDOW_NAME, img)
-                # cv2.imshow(WINDOW_NAME, visualized_output.get_image()[:, :, ::-1])
+                # cv2.imshow(WINDOW_NAME, img)
+                cv2.imshow(WINDOW_NAME, visualized_output.get_image()[:, :, ::-1])
                 if cv2.waitKey(0) == 27:
                     break  # esc to quit
 
