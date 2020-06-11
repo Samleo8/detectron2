@@ -149,23 +149,32 @@ if __name__ == "__main__":
 
             bbox_by_camera = []
 
+            print(f"Working on action {action_name}, camera {camera_name} with {len(images_sorted)} images... ", end="")
+
             for img_path in images_sorted:
                 full_img_path = os.path.join(images_dir_cam, img_path)
-                img = read_image(full_img_path, format="BGR")
-                predictions, visualized_output = demo.run_on_image(img)
+
+                try: 
+                    img = read_image(full_img_path, format="BGR")
+                    predictions, visualized_output = demo.run_on_image(img)
                 
-                frame_name = img_path.replace(f'{camera_name}_', '').replace('.jpg', '')
+                    frame_name = img_path.replace(f'{camera_name}_', '').replace('.jpg', '')
 
-                bboxes = singleFrameBBOX(predictions)
+                    bboxes = singleFrameBBOX(predictions)
 
-                if len(bboxes) == 0:
-                    bboxes = [0,0,0,0,0]
+                    if len(bboxes) == 0:
+                        bboxes = [ [0,0,0,0,0] ]
 
-                if len(bboxes) > 1:
-                    print(f"[ALERT] Camera {camera_name} Frame {frame_name} has multiple detections of people ({len(bboxes)})!")
+                    if len(bboxes) > 1:
+                        print(f"[ALERT] Camera {camera_name} Frame {frame_name} has multiple detections of people ({len(bboxes)})!")
+                except:
+                    bboxes = [ [0,0,0,0,0] ]
 
                 bbox_by_camera.append(bboxes[0])
-    
+
+            print("Done!")
+
             os.makedirs(output_dir_cam)
             with open(output_dir_cam_file, 'w') as f:
-                json.dump(bbox_by_camera, f)
+                f.write(bbox_by_camera)
+                print(f"Write to {f.name} complete")
