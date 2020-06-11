@@ -136,16 +136,19 @@ if __name__ == "__main__":
             continue
 
         for camera_name in os.listdir(images_dir):
+            print(camera_name)
+
             # Populate frames dictionary
             images_dir_cam = os.path.join(images_dir, camera_name)
             output_dir_cam = os.path.join(output_dir, action_name)
             output_dir_cam_file = os.path.join(output_dir_cam, camera_name + ".json")
 
-            images_sorted = os.listdir(images_dir_cam).sort()
+            images_sorted = sorted(os.listdir(images_dir_cam))
 
             bbox_by_camera = []
 
             for img_path in images_sorted:
+                full_img_path = os.path.join(images_dir_cam, img_path)
                 img = read_image(img_path, format="BGR")
                 predictions, visualized_output = demo.run_on_image(img)
                 
