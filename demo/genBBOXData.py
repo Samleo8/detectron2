@@ -92,7 +92,7 @@ def singleFrameBBOX(predictions):
 
         left, top, right, bottom = tuple(bbox)
 
-        bboxes.append(list(left, top, right, bottom, conf))
+        bboxes.append([left, top, right, bottom, conf])
 
     return bboxes
 
@@ -118,6 +118,10 @@ if __name__ == "__main__":
     for action_name in os.listdir(cmu_dance_root):
         # Make sure that this is actually a scene
         # and not sth like 'scripts' or 'matlab'
+
+        if 'calibration' in action_name:
+            continue
+
         if '_dance' not in action_name and '_moonbaby' not in action_name:
             continue
 
@@ -125,7 +129,7 @@ if __name__ == "__main__":
 
         # Ensure is a proper directory
         if not os.path.isdir(action_dir):
-            print(f"{action_dir} does not exist")
+            print(f"{action_dir} is not a directory")
             continue
 
         # Find the cameras
@@ -136,8 +140,6 @@ if __name__ == "__main__":
             continue
 
         for camera_name in os.listdir(images_dir):
-            print(camera_name)
-
             # Populate frames dictionary
             images_dir_cam = os.path.join(images_dir, camera_name)
             output_dir_cam = os.path.join(output_dir, action_name)
