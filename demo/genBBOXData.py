@@ -114,6 +114,8 @@ if __name__ == "__main__":
     assert os.path.isdir(cmu_dance_root), f"Input {cmu_dance_root} must be a directory!"
     assert os.path.isdir(output_dir), f"Output {output_dir} must be a directory!"
 
+    print("Detectron configured!")
+
     # Get images
     for action_name in os.listdir(cmu_dance_root):
         # Make sure that this is actually a scene
@@ -149,7 +151,7 @@ if __name__ == "__main__":
 
             bbox_by_camera = []
 
-            print(f"Working on action {action_name}, camera {camera_name} with {len(images_sorted)} images... ", end="")
+            print(f"Working on action {action_name}, camera {camera_name} with {len(images_sorted)} images...")
 
             for img_path in images_sorted:
                 full_img_path = os.path.join(images_dir_cam, img_path)
