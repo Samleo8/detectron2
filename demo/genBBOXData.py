@@ -149,7 +149,7 @@ if __name__ == "__main__":
 
             for img_path in images_sorted:
                 full_img_path = os.path.join(images_dir_cam, img_path)
-                img = read_image(img_path, format="BGR")
+                img = read_image(full_img_path, format="BGR")
                 predictions, visualized_output = demo.run_on_image(img)
                 
                 frame_name = img_path.replace(f'{camera_name}_', '').replace('.jpg', '')
