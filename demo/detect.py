@@ -1,4 +1,5 @@
-# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+# Adapted from demo.py
+
 import argparse
 import glob
 import multiprocessing as mp
