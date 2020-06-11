@@ -165,5 +165,5 @@ if __name__ == "__main__":
                 bbox_by_camera.append(bboxes[0])
     
             os.makedirs(output_dir_cam)
-            with open(output_dir_cam, 'w') as f:
+            with open(output_dir_cam_file, 'w') as f:
                 json.dump(bbox_by_camera, f)
