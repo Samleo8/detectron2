@@ -4,18 +4,18 @@
 '''
 USAGE:
 
-$ python3 genBBOXData \ 
+$ python3 genBBOXData.py \
     --config_file <config_file> \
     --input  <input images dir> \
-    --output <output dir> \
+    --output <output dir>
 
 DEFAULT:
 
-$ python3 genBBOXData \ 
+$ python3 genBBOXData.py \
     --config_file ./configs/COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml \
-    --input  ~/learnable-triangulation-pytorch/data/cmupanoptic \
-    --output ~/learnable-triangulation-pytorch/data/pretrained/mrcnn-detections/cmu \
-    --opts MODEL.WEIGHTS ../model_final_280758.pkl
+    --input  ../learnable-triangulation-pytorch/data/cmupanoptic \
+    --output ../learnable-triangulation-pytorch/data/pretrained/mrcnn-detections/cmu \
+    --opts MODEL.WEIGHTS ./model_final_280758.pkl
 
 More info with 
 $ python3 genBBOXData --help
