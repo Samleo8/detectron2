@@ -5,16 +5,16 @@
 USAGE:
 
 $ python3 genBBOXData.py \
-    --config_file <config_file> \
+    --config-file <config_file> \
     --input  <input images dir> \
     --output <output dir>
 
 DEFAULT:
 
 $ python3 genBBOXData.py \
-    --config_file ../configs/COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml \
+    --config-file ../configs/COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml \
     --input  ../../learnable-triangulation-pytorch/data/cmupanoptic \
-    --output ../../learnable-triangulation-pytorch/data/pretrained/mrcnn-detections/cmu \
+    --output ../../learnable-triangulation-pytorch/data/pretrained/cmu/mrcnn-detections \
     --opts MODEL.WEIGHTS ../model_final_280758.pkl
 
 More info with 
@@ -54,8 +54,7 @@ def get_parser():
     )
     parser.add_argument(
         "--input",
-        nargs="+",
-        help="",
+        help="Root directory to dataset",
     )
     parser.add_argument(
         "--output",
@@ -126,16 +125,14 @@ if __name__ == "__main__":
 
         # Ensure is a proper directory
         if not os.path.isdir(action_dir):
-            if DEBUG:
-                print(f"{action_dir} does not exist")
+            print(f"{action_dir} does not exist")
             continue
 
         # Find the cameras
         images_dir = os.path.join(action_dir, 'hdImgs')
 
         if not os.path.isdir(images_dir):
-            if DEBUG:
-                print(f"Image directory {images_dir} does not exist")
+            print(f"Image directory {images_dir} does not exist")
             continue
 
         for camera_name in os.listdir(images_dir):
