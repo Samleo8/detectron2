@@ -54,11 +54,19 @@ def get_parser():
     )
     parser.add_argument(
         "--input",
+        type=dir
         help="Root directory to dataset",
     )
     parser.add_argument(
         "--output",
+        type=dir
         help="A directory to save output visualizations"
+    )
+    parser.add_argument(
+        "--logs",
+        type=dir,
+        default="./logs"
+        help="A directory to save error or log data"
     )
 
     parser.add_argument(
@@ -110,6 +118,7 @@ if __name__ == "__main__":
     '''
     cmu_dance_root = args.input
     output_dir = args.output
+    logs_dir = args.logs
 
     assert os.path.isdir(cmu_dance_root), f"Input {cmu_dance_root} must be a directory!"
     assert os.path.isdir(output_dir), f"Output {output_dir} must be a directory!"
@@ -160,7 +169,7 @@ if __name__ == "__main__":
                     img = read_image(full_img_path, format="BGR")
                     predictions, visualized_output = demo.run_on_image(img)
                 
-                    frame_name = img_path.replace(f'{camera_name}_', '').replace('.jpg', '')
+                    # frame_name = img_path.replace(f'{camera_name}_', '').replace('.jpg', '')
 
                     bboxes = singleFrameBBOX(predictions)
 
@@ -168,7 +177,14 @@ if __name__ == "__main__":
                         bboxes = [ [0,0,0,0,0] ]
 
                     if len(bboxes) > 1:
-                        print(f"[ALERT] Camera {camera_name} Frame {frame_name} has multiple detections of people ({len(bboxes)})!")
+                        # TODO: Use the one with highest confidence
+                        print(f"[ALERT] {img_path} has multiple detections of people ({len(bboxes)})!")
+                    
+                        errors_file = os.path.join(logs_dir, "multiple_detections.txt")
+
+                        with open(errors_file, 'w') as f:
+                            f.write(full_img_path)
+
                 except:
                     bboxes = [ [0,0,0,0,0] ]
 
@@ -176,7 +192,8 @@ if __name__ == "__main__":
 
             print("Done!")
 
-            os.makedirs(output_dir_cam)
+            os.makedirs(output_dir_cam, exist_ok=True)
             with open(output_dir_cam_file, 'w') as f:
-                f.write(bbox_by_camera)
+                print(bbox_by_camera)
+                f.write(str(bbox_by_camera))
                 print(f"Write to {f.name} complete")
