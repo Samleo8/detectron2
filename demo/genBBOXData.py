@@ -108,7 +108,7 @@ def singleFrameBBOX(predictions, sortByConf=False):
     return bboxes
 
 
-ignore_cameras = ["00_01", "00_13", "00_24", "00_26" ]
+ignore_cameras = ["00_01", "00_13", "00_24", "00_26", "00_17" ]
 
 if __name__ == "__main__":
     mp.set_start_method("spawn", force=True)
