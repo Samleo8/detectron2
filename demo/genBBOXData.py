@@ -107,6 +107,9 @@ def singleFrameBBOX(predictions, sortByConf=False):
 
     return bboxes
 
+
+ignore_cameras = ["00_01", "00_13", "00_24", "00_26" ]
+
 if __name__ == "__main__":
     mp.set_start_method("spawn", force=True)
     args = get_parser().parse_args()    
@@ -163,6 +166,9 @@ if __name__ == "__main__":
             continue
 
         for camera_name in os.listdir(images_dir):
+            if camera_name in ignore_cameras:
+                continue
+            
             # Populate frames dictionary
             images_dir_cam = os.path.join(images_dir, camera_name)
             output_dir_cam = os.path.join(output_dir, action_name)
