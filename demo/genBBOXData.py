@@ -117,6 +117,9 @@ if __name__ == "__main__":
     output_dir = args.output
     logs_dir = args.logs
 
+    if not os.path.isdir(logs_dir):
+        os.makedirs(logs_dir)
+
     assert os.path.isdir(cmu_dance_root), f"Input {cmu_dance_root} must be a directory!"
     assert os.path.isdir(output_dir), f"Output {output_dir} must be a directory!"
 
@@ -180,6 +183,7 @@ if __name__ == "__main__":
                         errors_file = os.path.join(logs_dir, "multiple_detections.txt")
 
                         with open(errors_file, 'w') as f:
+                            print("Writing to", errors_file)
                             f.write(full_img_path)
 
                 except:
