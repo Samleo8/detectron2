@@ -54,12 +54,12 @@ def get_parser():
     )
     parser.add_argument(
         "--input",
-        type=dir
+        type=dir,
         help="Root directory to dataset",
     )
     parser.add_argument(
         "--output",
-        type=dir
+        type=dir,
         help="A directory to save output visualizations"
     )
     parser.add_argument(
