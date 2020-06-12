@@ -190,9 +190,6 @@ if __name__ == "__main__":
 
                     if len(bboxes) > 1:                     
                         print(f"[ALERT] {img_path} has multiple detections of people ({len(bboxes)})!")
-
-                        print(bboxes)
-
                         with open(multiple_detections_file, 'a') as f:
                             f.write(full_img_path + "\n")
 
@@ -205,6 +202,5 @@ if __name__ == "__main__":
 
             os.makedirs(output_dir_cam, exist_ok=True)
             with open(output_dir_cam_file, 'w') as f:
-                print(bbox_by_camera)
                 f.write(str(bbox_by_camera))
                 print(f"Write to {f.name} complete")

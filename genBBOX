@@ -7,7 +7,7 @@ python3 genBBOXData.py \
     --input  ../../learnable-triangulation-pytorch/data/cmupanoptic \
     --output ../../learnable-triangulation-pytorch/data/pretrained/cmu/mrcnn-detections \
     --logs ../logs \
-    --confidence-threshold 0.85 \
+    --confidence-threshold 0.80 \
     --opts MODEL.WEIGHTS ../model_final_280758.pkl
 
 cd -
