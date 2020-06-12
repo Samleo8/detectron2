@@ -117,8 +117,14 @@ if __name__ == "__main__":
     output_dir = args.output
     logs_dir = args.logs
 
+    multiple_detections_file = os.path.join(logs_dir, "multiple_detections.txt")
+
     if not os.path.isdir(logs_dir):
         os.makedirs(logs_dir)
+    else:
+        # Clear files
+        with open(multiple_detections_file, "w") as f:
+            f.write("")
 
     assert os.path.isdir(cmu_dance_root), f"Input {cmu_dance_root} must be a directory!"
     assert os.path.isdir(output_dir), f"Output {output_dir} must be a directory!"
@@ -180,10 +186,7 @@ if __name__ == "__main__":
                         # TODO: Use the one with highest confidence
                         print(f"[ALERT] {img_path} has multiple detections of people ({len(bboxes)})!")
                     
-                        errors_file = os.path.join(logs_dir, "multiple_detections.txt")
-
-                        with open(errors_file, 'w') as f:
-                            print("Writing to", errors_file)
+                        with open(multiple_detections_file, 'a') as f:
                             f.write(full_img_path)
 
                 except:
