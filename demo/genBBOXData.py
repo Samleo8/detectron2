@@ -80,7 +80,7 @@ def get_parser():
     )
     return parser
 
-def singleFrameBBOX(predictions):
+def singleFrameBBOX(predictions, sortByConf=False):
     pred_boxes = predictions["instances"].pred_boxes.tensor.cpu().detach().numpy()
     pred_classes = predictions["instances"].pred_classes.cpu().detach().numpy()
     confidences = predictions["instances"].scores.cpu().detach().numpy()
@@ -98,6 +98,12 @@ def singleFrameBBOX(predictions):
         left, top, right, bottom = tuple(bbox)
 
         bboxes.append([left, top, right, bottom, conf])
+
+    def getConfidence(bbox):
+        return float(bbox[4])
+
+    if sortByConf:
+        bboxes.sort(key=getConfidence, reverse=True)
 
     return bboxes
 
@@ -177,17 +183,18 @@ if __name__ == "__main__":
                 
                     # frame_name = img_path.replace(f'{camera_name}_', '').replace('.jpg', '')
 
-                    bboxes = singleFrameBBOX(predictions)
+                    bboxes = singleFrameBBOX(predictions, sortByConf=True)
 
                     if len(bboxes) == 0:
                         bboxes = [ [0,0,0,0,0] ]
 
-                    if len(bboxes) > 1:
-                        # TODO: Use the one with highest confidence
+                    if len(bboxes) > 1:                     
                         print(f"[ALERT] {img_path} has multiple detections of people ({len(bboxes)})!")
-                    
+
+                        print(bboxes)
+
                         with open(multiple_detections_file, 'a') as f:
-                            f.write(full_img_path)
+                            f.write(full_img_path + "\n")
 
                 except:
                     bboxes = [ [0,0,0,0,0] ]
