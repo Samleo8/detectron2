@@ -19,6 +19,7 @@ detectron2.egg-info/
 build/
 dist/
 wheels/
+logs/
 
 # pytorch/python/numpy formats
 *.pth
