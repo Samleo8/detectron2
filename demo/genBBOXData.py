@@ -62,7 +62,7 @@ def get_parser():
     )
     parser.add_argument(
         "--logs",
-        default="./logs",
+        default="-",
         help="A directory to save error or log data"
     )
 
@@ -125,11 +125,14 @@ if __name__ == "__main__":
     output_dir = args.output
     logs_dir = args.logs
 
-    multiple_detections_file = os.path.join(logs_dir, "multiple_detections.txt")
+    DEBUG = False if logs_dir == "-" else True
 
-    if not os.path.isdir(logs_dir):
+    if DEBUG:
+        multiple_detections_file = os.path.join(logs_dir, "multiple_detections.txt")
+
+    if DEBUG and not os.path.isdir(logs_dir):
         os.makedirs(logs_dir)
-    else:
+    elif DEBUG:
         # Clear files
         with open(multiple_detections_file, "w") as f:
             f.write("")
@@ -193,11 +196,12 @@ if __name__ == "__main__":
                     if len(bboxes) == 0:
                         bboxes = [ [0,0,0,0,0] ]
 
-                    if len(bboxes) > 1:                     
+                    if len(bboxes) > 1:         
                         print(f"[ALERT] {img_path} has multiple detections of people ({len(bboxes)})!")
-                        with open(multiple_detections_file, 'a') as f:
-                            f.write(full_img_path + "\n")
 
+                        if DEBUG:          
+                            with open(multiple_detections_file, 'a') as f:
+                                f.write(full_img_path + "\n")
                 except:
                     bboxes = [ [0,0,0,0,0] ]
 
