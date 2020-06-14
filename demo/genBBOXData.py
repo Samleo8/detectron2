@@ -107,7 +107,9 @@ def singleFrameBBOX(predictions, sortByConf=False):
 
     return bboxes
 
-ignore_cameras = [ "00_01", "00_06", "00_12", "00_16", "00_20", "00_25", "00_02", "00_07", "00_13", "00_17", "00_21", "00_26", "00_03", "00_10", "00_14", "00_18", "00_22", "00_27", "00_04", "00_11", "00_15", "00_19", "00_24", "00_28" ]
+
+ignore_actions = ["150821_dance1"]
+ignore_cameras = [] # [ "00_01", "00_06", "00_12", "00_16", "00_20", "00_25", "00_02", "00_07", "00_13", "00_17", "00_21", "00_26", "00_03", "00_10", "00_14", "00_18", "00_22", "00_27", "00_04", "00_11", "00_15", "00_19", "00_24", "00_28" ]
 
 if __name__ == "__main__":
     mp.set_start_method("spawn", force=True)
@@ -151,6 +153,9 @@ if __name__ == "__main__":
             continue
 
         if '_dance' not in action_name and '_moonbaby' not in action_name:
+            continue
+
+        if action_name in ignore_actions:
             continue
 
         action_dir = os.path.join(cmu_dance_root, action_name)
