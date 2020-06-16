@@ -181,6 +181,10 @@ if __name__ == "__main__":
             output_dir_cam = os.path.join(output_dir, action_name)
             output_dir_cam_file = os.path.join(output_dir_cam, camera_name + ".json")
 
+            # Dont overwrite
+            if os.path.exists(output_dir_cam_file):
+                continue
+
             images_sorted = sorted(os.listdir(images_dir_cam))
 
             bbox_by_camera = []
