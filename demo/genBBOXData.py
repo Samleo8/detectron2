@@ -107,7 +107,7 @@ def singleFrameBBOX(predictions, sortByConf=False):
 
     return bboxes
 
-
+forceSinglePerson = False
 ignore_actions = ["150821_dance1"]
 ignore_cameras = [] # [ "00_01", "00_06", "00_12", "00_16", "00_20", "00_25", "00_02", "00_07", "00_13", "00_17", "00_21", "00_26", "00_03", "00_10", "00_14", "00_18", "00_22", "00_27", "00_04", "00_11", "00_15", "00_19", "00_24", "00_28" ]
 
@@ -208,7 +208,7 @@ if __name__ == "__main__":
                     if len(bboxes) == 0:
                         bboxes = [ [0,0,0,0,0] ]
 
-                    if len(bboxes) > 1:         
+                    if len(bboxes) > 1 and forceSinglePerson:
                         print(f"[ALERT] {img_path} has multiple detections of people ({len(bboxes)})!")
 
                         if DEBUG:          
@@ -217,7 +217,10 @@ if __name__ == "__main__":
                 except:
                     bboxes = [ [0,0,0,0,0] ]
 
-                bbox_by_camera.append(bboxes[0])
+                if forceSinglePerson:
+                    bbox_by_camera.append(bboxes[0])
+                else:
+                    bbox_by_camera.append(bboxes)
 
             print("Done!")
 
