@@ -152,8 +152,11 @@ if __name__ == "__main__":
         if 'calibration' in action_name:
             continue
 
-        if '_dance' not in action_name and '_moonbaby' not in action_name:
+        if '_ultimatum1' not in action_name:
             continue
+
+        # if '_dance' not in action_name and '_moonbaby' not in action_name:
+        #    continue
 
         if action_name in ignore_actions:
             continue
