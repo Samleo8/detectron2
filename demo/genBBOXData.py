@@ -203,7 +203,7 @@ if __name__ == "__main__":
                 
                     # frame_name = img_path.replace(f'{camera_name}_', '').replace('.jpg', '')
 
-                    bboxes = singleFrameBBOX(predictions, sortByConf=True)
+                    bboxes = singleFrameBBOX(predictions, sortByConf=forceSinglePerson)
 
                     if len(bboxes) == 0:
                         bboxes = [ [0,0,0,0,0] ]
