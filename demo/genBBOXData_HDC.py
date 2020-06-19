@@ -167,7 +167,7 @@ if __name__ == "__main__":
                 continue
             
             # Find the cameras
-            images_dir = os.path.join(action_dir, 'frames')
+            images_dir = os.path.join(action_dir, camera_name, 'frames')
 
             if not os.path.isdir(images_dir):
                 print(f"Image directory {images_dir} does not exist")
