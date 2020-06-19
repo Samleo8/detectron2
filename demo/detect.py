@@ -107,8 +107,8 @@ if __name__ == "__main__":
 
                     left, top, right, bottom = tuple(bbox)
                     img = cv2.rectangle(img, (left, top), (right, bottom), (255, 0, 0), 3)
-                    img = cv2.putText(img, f"{i}, {conf}", (left, bottom),
-                                      cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 0, 0), 1)
+                    img = cv2.putText(img, f"{i}, {conf:.2f}", (left, bottom),
+                                      cv2.FONT_HERSHEY_SIMPLEX, 1.5, (255, 0, 0), 1)
                 
                 cv2.imshow(WINDOW_NAME, img)
 
