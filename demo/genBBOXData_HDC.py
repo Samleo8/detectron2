@@ -1,4 +1,4 @@
-# Python script for generating BBOX Data for CMU dataset
+# Python script for generating BBOX Data for HDC dataset
 # Adapted from detect/demo.py
 
 '''
@@ -13,8 +13,8 @@ DEFAULT:
 
 $ python3 genBBOXData_HDC.py \
     --config-file ../configs/COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml \
-    --input  ../../learnable-triangulation-pytorch/data/cmupanoptic \
-    --output ../../learnable-triangulation-pytorch/data/pretrained/cmu/mrcnn-detections \
+    --input  ../../learnable-triangulation-pytorch/data/hdc \
+    --output ../../learnable-triangulation-pytorch/data/pretrained/hdc/mrcnn-detections \
     --opts MODEL.WEIGHTS ../model_final_280758.pkl
 
 More info with 
@@ -108,8 +108,8 @@ def singleFrameBBOX(predictions, sortByConf=False):
     return bboxes
 
 forceSinglePerson = False
-ignore_actions = ["150821_dance1"]
-ignore_cameras = [] # [ "00_01", "00_06", "00_12", "00_16", "00_20", "00_25", "00_02", "00_07", "00_13", "00_17", "00_21", "00_26", "00_03", "00_10", "00_14", "00_18", "00_22", "00_27", "00_04", "00_11", "00_15", "00_19", "00_24", "00_28" ]
+ignore_actions = []
+ignore_cameras = []
 
 if __name__ == "__main__":
     mp.set_start_method("spawn", force=True)
@@ -121,9 +121,9 @@ if __name__ == "__main__":
     '''
     Data organisation
 
-    [ACTION_NAME]/hdImgs/[CAMERA_NO]/[CAMERA_NO]_[FRAME_NO].jpg
+    [ACTION_NAME]/n[CAMERA_NO]/hdImgs/[SUB_ACTION]_[FRAME_NO].jpg
     '''
-    cmu_dance_root = args.input
+    hdc_root = args.input
     output_dir = args.output
     logs_dir = args.logs
 
@@ -139,46 +139,40 @@ if __name__ == "__main__":
             with open(multiple_detections_file, "w") as f:
                 f.write("")
 
-    assert os.path.isdir(cmu_dance_root), f"Input {cmu_dance_root} must be a directory!"
+    assert os.path.isdir(hdc_root), f"Input {hdc_root} must be a directory!"
     assert os.path.isdir(output_dir), f"Output {output_dir} must be a directory!"
 
     print("Detectron configured!")
 
     # Get images
-    for action_name in os.listdir(cmu_dance_root):
+    for action_name in os.listdir(hdc_root):
         # Make sure that this is actually a scene
         # and not sth like 'scripts' or 'matlab'
-
-        if 'calibration' in action_name:
+        if 'output_' not in action_name:
             continue
-
-        if '_ultimatum1' not in action_name:
-            continue
-
-        # if '_dance' not in action_name and '_moonbaby' not in action_name:
-        #    continue
 
         if action_name in ignore_actions:
             continue
 
-        action_dir = os.path.join(cmu_dance_root, action_name)
+        action_dir = os.path.join(hdc_root, action_name)
 
         # Ensure is a proper directory
         if not os.path.isdir(action_dir):
             print(f"{action_dir} is not a directory")
             continue
 
-        # Find the cameras
-        images_dir = os.path.join(action_dir, 'hdImgs')
-
-        if not os.path.isdir(images_dir):
-            print(f"Image directory {images_dir} does not exist")
-            continue
-
-        for camera_name in os.listdir(images_dir):
+        # Search through all cameras first
+        for camera_name in os.listdir(action_dir):
             if camera_name in ignore_cameras:
                 continue
             
+            # Find the cameras
+            images_dir = os.path.join(action_dir, 'frames')
+
+            if not os.path.isdir(images_dir):
+                print(f"Image directory {images_dir} does not exist")
+                continue
+
             # Populate frames dictionary
             images_dir_cam = os.path.join(images_dir, camera_name)
             output_dir_cam = os.path.join(output_dir, action_name)
