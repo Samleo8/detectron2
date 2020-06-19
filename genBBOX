@@ -4,11 +4,20 @@ DATASET=${1-CMU}
 
 cd demo
 
-python3 genBBOXData_$DATASET.py \
-    --config-file ../configs/COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml \
-    --input  ../../learnable-triangulation-pytorch/data/cmupanoptic \
-    --output ../../learnable-triangulation-pytorch/data/pretrained/cmu/mrcnn-detections \
-    --confidence-threshold 0.85 \
-    --opts MODEL.WEIGHTS ../model_final_280758.pkl
+if [ $DATASET == "cmu" || $DATASET == "CMU" ]; then
+    python3 genBBOXData_CMU.py \
+        --config-file ../configs/COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml \
+        --input  ../../learnable-triangulation-pytorch/data/cmupanoptic \
+        --output ../../learnable-triangulation-pytorch/data/pretrained/cmu/mrcnn-detections \
+        --confidence-threshold 0.85 \
+        --opts MODEL.WEIGHTS ../model_final_280758.pkl
+elif [ $DATASET == "hdc" || $DATASET == "HDC" ]
+    python3 genBBOXData_HDC.py \
+        --config-file ../configs/COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml \
+        --input  ../../learnable-triangulation-pytorch/data/hdc \
+        --output ../../learnable-triangulation-pytorch/data/pretrained/hdc/mrcnn-detections \
+        --confidence-threshold 0.3 \
+        --opts MODEL.WEIGHTS ../model_final_280758.pkl
+fi
 
 cd -
