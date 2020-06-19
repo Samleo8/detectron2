@@ -1,12 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 
-CONFIDENCE=${1-0.85}
+CONFIDENCE=${1-0.5}
 
 cd demo
 
 python detect.py --config-file ../configs/COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml \
   --input ../images/*.jpg ../images/*.png \
-  --confidence-threshold $CONFIDENCE
+  --confidence-threshold $CONFIDENCE \
   --opts MODEL.WEIGHTS ../model_final_280758.pkl
 
 cd -
