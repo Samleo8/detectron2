@@ -167,14 +167,13 @@ if __name__ == "__main__":
                 continue
             
             # Find the cameras
-            images_dir = os.path.join(action_dir, camera_name, 'frames')
+            images_dir_cam = os.path.join(action_dir, camera_name, 'frames')
 
             if not os.path.isdir(images_dir):
                 print(f"Image directory {images_dir} does not exist")
                 continue
 
             # Populate frames dictionary
-            images_dir_cam = os.path.join(images_dir, camera_name)
             output_dir_cam = os.path.join(output_dir, action_name)
             output_dir_cam_file = os.path.join(output_dir_cam, camera_name + ".json")
 
